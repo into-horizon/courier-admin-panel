@@ -1,4 +1,5 @@
 import React from 'react'
+import Summary from './components/Summary'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
@@ -49,6 +50,15 @@ const Modals = React.lazy(() => import('./views/notifications/modals/Modals'))
 const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
+const Profile = React.lazy(() => import('./views/pages/profile/Profile'))
+const AddProduct = React.lazy(() => import('./views/product/AddProduct'))
+const Products = React.lazy(() => import('./views/product/Products'))
+const UpdateProduct = React.lazy(() => import('./views/product/UpdateProducts'))
+const Settings = React.lazy(() => import('./views/pages/settings/Settings'))
+const PendingOrders = React.lazy(() => import('./components/PendingOrders'))
+const OrdersOverview = React.lazy(() => import('./components/OrderOverView'))
+const Pdf = React.lazy(() => import('./components/PdfView'))
+const Statement = React.lazy(() => import('./components/Statement'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -95,6 +105,21 @@ const routes = [
   { path: '/notifications/modals', name: 'Modals', component: Modals },
   { path: '/notifications/toasts', name: 'Toasts', component: Toasts },
   { path: '/widgets', name: 'Widgets', component: Widgets },
+  { path: '/profile', name: 'Profile', component: Profile },
+  { path: '/product', name: 'Products', component: Products , exact: true},
+  { path: '/product/add', name: 'addProduct', component: AddProduct , approved: true },
+  { path: '/product/products', name: 'myProducts', component: Products , approved: true},
+  { path: '/product/updateProduct', name: 'updateProduct', component: UpdateProduct , role: 'storeOwner', approved: true},
+  { path: '/settings', name: 'Settings', component: Settings , exact: true},
+  { path: '/order', name: 'Order', component: PendingOrders, exact: true},
+  { path: '/order/pendingOrders', name: 'Pending Orders', component: PendingOrders},
+  { path: '/order/overview', name: 'Orders Overview', component: OrdersOverview},
+  { path: '/pdf', name: 'pdf', component: Pdf},
+  { path: '/finance', name: 'Finance', component: Statement},
+  { path: '/finance/statement', name: 'Statements', component: Statement},
+  { path: '/finance/summary', name: 'Summary', component: Summary}
+ 
+
 ]
 
 export default routes

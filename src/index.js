@@ -1,15 +1,28 @@
 import 'react-app-polyfill/stable'
 import 'core-js'
-import React from 'react'
+import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { Provider } from 'react-redux'
-import store from './store'
+import store from './store/index'
+import './i18next';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
+const loading = (
+  <div className="pt-3 text-center">
+    <div className="sk-spinner sk-spinner-pulse"></div>
+  </div>
+)
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Router>
+      <Suspense fallback={loading}>
+        <App />
+      
+      </Suspense>
+
+    </Router>
   </Provider>,
   document.getElementById('root'),
 )

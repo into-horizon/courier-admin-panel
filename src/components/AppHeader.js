@@ -10,6 +10,7 @@ import {
   CHeaderToggler,
   CNavLink,
   CNavItem,
+  CButton
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilBell, cilEnvelopeOpen, cilList, cilMenu } from '@coreui/icons'
@@ -17,10 +18,12 @@ import { cilBell, cilEnvelopeOpen, cilList, cilMenu } from '@coreui/icons'
 import { AppBreadcrumb } from './index'
 import { AppHeaderDropdown } from './header/index'
 import { logo } from 'src/assets/brand/logo'
+import { useTranslation } from 'react-i18next';
 
 const AppHeader = () => {
   const dispatch = useDispatch()
-  const sidebarShow = useSelector((state) => state.sidebarShow)
+  const sidebarShow = useSelector((state) => state.changeState.sidebarShow)
+  const { t, i18n } = useTranslation()
 
   return (
     <CHeader position="sticky" className="mb-4">
@@ -36,7 +39,7 @@ const AppHeader = () => {
         </CHeaderBrand>
         <CHeaderNav className="d-none d-md-flex me-auto">
           <CNavItem>
-            <CNavLink to="/dashboard" component={NavLink} activeClassName="active">
+            <CNavLink to="/dashboard" component={NavLink} className="active">
               Dashboard
             </CNavLink>
           </CNavItem>
@@ -47,6 +50,7 @@ const AppHeader = () => {
             <CNavLink href="#">Settings</CNavLink>
           </CNavItem>
         </CHeaderNav>
+      <CButton color="primary" onClick={() =>i18n.changeLanguage(i18n.language === 'en'? 'ar': 'en')}>{t('lang')}</CButton>
         <CHeaderNav>
           <CNavItem>
             <CNavLink href="#">

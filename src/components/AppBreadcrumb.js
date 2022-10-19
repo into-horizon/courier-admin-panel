@@ -1,14 +1,17 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next';
 
 import routes from '../routes'
 
 import { CBreadcrumb, CBreadcrumbItem } from '@coreui/react'
+import cookie from 'react-cookies'
 
 const AppBreadcrumb = () => {
   const currentLocation = useLocation().pathname
 
   const getRouteName = (pathname, routes) => {
+    cookie.save(`current_path${sessionStorage.tabID}`, pathname, {path: '/'})
     const currentRoute = routes.find((route) => route.path === pathname)
     return currentRoute.name
   }
@@ -28,17 +31,18 @@ const AppBreadcrumb = () => {
   }
 
   const breadcrumbs = getBreadcrumbs(currentLocation)
+  const { t } = useTranslation('translation', { keyPrefix: 'routes' });
 
   return (
     <CBreadcrumb className="m-0 ms-2">
-      <CBreadcrumbItem href="/">Home</CBreadcrumbItem>
+      <CBreadcrumbItem href="/">{t('Home')}</CBreadcrumbItem>
       {breadcrumbs.map((breadcrumb, index) => {
         return (
           <CBreadcrumbItem
             {...(breadcrumb.active ? { active: true } : { href: breadcrumb.pathname })}
             key={index}
           >
-            {breadcrumb.name}
+            {t(breadcrumb.name)}
           </CBreadcrumbItem>
         )
       })}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {
   CAvatar,
   CBadge,
@@ -21,14 +21,27 @@ import {
   cilUser,
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
+import cookie from 'react-cookies';
+import {Link} from 'react-router-dom'
 
 import avatar8 from './../../assets/images/avatars/8.jpg'
+import { logout } from 'src/store/auth'
+import {connect} from 'react-redux'
 
-const AppHeaderDropdown = () => {
+
+const AppHeaderDropdown = (props) => {
+
+  const [token, setToken] = useState('')
+  const { login, logout} = props
+
+  useEffect(() => {
+    setToken(t => cookie.load('access_token'))
+    
+  },[])
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
-        <CAvatar src={avatar8} size="md" />
+        <CAvatar src={login.user.store_picture} size="md" />
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
         <CDropdownHeader className="bg-light fw-semibold py-2">Account</CDropdownHeader>
@@ -61,14 +74,22 @@ const AppHeaderDropdown = () => {
           </CBadge>
         </CDropdownItem>
         <CDropdownHeader className="bg-light fw-semibold py-2">Settings</CDropdownHeader>
-        <CDropdownItem href="#">
+        {/* <CDropdownItem href="" >
+        </CDropdownItem> */}
+          <Link to="/profile" className="dropdown-item">
           <CIcon icon={cilUser} className="me-2" />
           Profile
-        </CDropdownItem>
-        <CDropdownItem href="#">
+
+          </Link>
+          <Link to="/settings" className="dropdown-item">
           <CIcon icon={cilSettings} className="me-2" />
           Settings
-        </CDropdownItem>
+
+          </Link>
+        {/* <CDropdownItem href="#">
+          <CIcon icon={cilSettings} className="me-2" />
+          Settings
+        </CDropdownItem> */}
         <CDropdownItem href="#">
           <CIcon icon={cilCreditCard} className="me-2" />
           Payments
@@ -82,15 +103,20 @@ const AppHeaderDropdown = () => {
           <CBadge color="primary" className="ms-2">
             42
           </CBadge>
-        </CDropdownItem>
+        </CDropdownItem> 
         <CDropdownDivider />
-        <CDropdownItem href="#">
+        <CDropdownItem href="" onClick={(e) =>{ e.preventDefault();logout()}}>
           <CIcon icon={cilLockLocked} className="me-2" />
-          Lock Account
+          Logout
         </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>
   )
 }
+const mapStateToProps = (state) => ({
+  login: state.login
 
-export default AppHeaderDropdown
+});
+const mapDispatchToProps = { logout };
+
+export default connect(mapStateToProps,mapDispatchToProps)(AppHeaderDropdown)
