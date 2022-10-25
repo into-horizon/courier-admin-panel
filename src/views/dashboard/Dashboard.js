@@ -22,7 +22,9 @@ import {
   CAccordionHeader,
   CAccordionBody,
   CWidgetStatsF,
-  CWidgetStatsB
+  CWidgetStatsB,
+  CForm,
+  CFormSelect
 } from '@coreui/react'
 import { CChartLine } from '@coreui/react-chartjs'
 import { getStyle, hexToRgba } from '@coreui/utils'
@@ -51,32 +53,32 @@ import {
   cilWarning
 } from '@coreui/icons'
 import { useTranslation } from 'react-i18next';
-
+import { updateCourierStatus } from '../../store/courier'
 import avatar1 from 'src/assets/images/avatars/1.jpg'
 import avatar2 from 'src/assets/images/avatars/2.jpg'
 import avatar3 from 'src/assets/images/avatars/3.jpg'
 import avatar4 from 'src/assets/images/avatars/4.jpg'
 import avatar5 from 'src/assets/images/avatars/5.jpg'
 import avatar6 from 'src/assets/images/avatars/6.jpg'
-import { useSelector } from 'react-redux'
+import { useSelector, connect } from 'react-redux'
 const WidgetsDropdown = lazy(() => import('../widgets/WidgetsDropdown.js'))
 const WidgetsBrand = lazy(() => import('../widgets/WidgetsBrand.js'))
 
-const Dashboard = () => {
-  const { message, user: { rejected_reason, status, ontime_orders, overall_orders, fulfilled_orders }, loggedIn } = useSelector((state) => state.login)
-  console.log("🚀 ~ file: Dashboard.js ~ line 67 ~ Dashboard ~ overall_orders", overall_orders)
-  console.log("🚀 ~ file: Dashboard.js ~ line 67 ~ Dashboard ~ rejected_reason", rejected_reason)
+const Dashboard = ({ updateCourierStatus }) => {
+  const { message, user: { rejected_reason, status, ontime_orders, overall_orders, fulfilled_orders }, loggedIn, userType } = useSelector((state) => state.login)
+
   const { t } = useTranslation('translation', { keyPrefix: 'dashboard' });
+  const { t: g } = useTranslation('translation', { keyPrefix: 'globals' });
   const random = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min)
   }
 
-  const colorLevel = n =>{
-    if ( n >= 80 ) return 'success'
-    else if ( n >= 60) return ''
-    else if ( n >= 50) return 'warning'
+  const colorLevel = n => {
+    if (n >= 80) return 'success'
+    else if (n >= 60) return ''
+    else if (n >= 50) return 'warning'
     else return 'danger'
-    
+
   }
   const progressExample = [
     { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
@@ -198,10 +200,13 @@ const Dashboard = () => {
       activity: 'Last week',
     },
   ]
-
+  const updateHandler = (e) => {
+    e.preventDefault();
+    Promise.all([updateCourierStatus({ status: e.target.status.value })])
+  }
   return (
     <>
-      {status !== 'approved' && <CAccordion flush>
+      {userType === 'courierCompany' && status !== 'approved' && <CAccordion flush>
         <CAccordionItem itemKey={1}>
           <CAccordionHeader>
             <CIcon icon={cilWarning} />
@@ -218,9 +223,42 @@ const Dashboard = () => {
         </CAccordionItem>
 
       </CAccordion>}
+      {userType === 'courier' && status === 'pending' && <CAccordion flush>
+        <CAccordionItem itemKey={1}>
+          <CAccordionHeader>
+            <CIcon icon={cilWarning} />
+            <strong style={{ margin: '0 0.5em' }}>
+              {/* {status === 'pending' && t('pendingStatus')}
+              {status === 'rejected' && t('rejectedStatus')} */}
+              {t('courierPending')}
+            </strong>
+          </CAccordionHeader>
+          <CAccordionBody>
+            <CForm xs={{ gutter: 5 }} onSubmit={updateHandler}>
+              <CRow>
+                <CCol xs='auto'>
+                  <CFormSelect id='status'>
+                    <option value='approved'>{g('accept')}</option>
+                    <option value='rejected'>{g('decline')}</option>
+                  </CFormSelect>
+
+                </CCol>
+                <CCol xs='auto'>
+
+                  <CButton type='submit'>{g('submit')}</CButton>
+                </CCol>
+              </CRow>
+            </CForm>
+            {/* {status === 'pending' && <p><strong>{t('moreInfo')}</strong>  <span>{t('pendingInfo')}</span></p>}
+            {status === 'rejected' && <p><strong>{t('rejectedReason')}: </strong>  <span>{rejected_reason}</span></p>} */}
+
+          </CAccordionBody>
+        </CAccordionItem>
+
+      </CAccordion>}
       <br />
       {/* <WidgetsDropdown /> */}
-      <CRow>
+      {/* <CRow>
         <CCol xs={12}>
           <CWidgetStatsB
             className="mb-3"
@@ -233,15 +271,7 @@ const Dashboard = () => {
         </CCol>
       </CRow>
       <CRow>
-        {/* <CCol xs={4}>
-          <CWidgetStatsB
-            className="mb-3"
-            progress={{ color: 'success', value: 100 }}
-            text="total item purchased"
-            title="placed order items"
-            value={overall_orders}
-          />
-        </CCol> */}
+     
         <CCol xs={4}>
           <CWidgetStatsB
             className="mb-3"
@@ -319,7 +349,7 @@ const Dashboard = () => {
             value={overall_orders - fulfilled_orders}
           />
         </CCol>
-      </CRow>
+      </CRow> */}
       <CCard className="mb-4">
         <CCardBody>
           <CRow>
@@ -597,4 +627,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default connect(null, { updateCourierStatus })(Dashboard)

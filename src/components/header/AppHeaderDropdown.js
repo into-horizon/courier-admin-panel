@@ -26,11 +26,11 @@ import {Link} from 'react-router-dom'
 
 import avatar8 from './../../assets/images/avatars/8.jpg'
 import { logout } from 'src/store/auth'
-import {connect} from 'react-redux'
+import {connect, useSelector} from 'react-redux'
 
 
 const AppHeaderDropdown = (props) => {
-
+  const {user, userType} = useSelector((state) => state.login)
   const [token, setToken] = useState('')
   const { login, logout} = props
 
@@ -41,7 +41,8 @@ const AppHeaderDropdown = (props) => {
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
-        <CAvatar src={login.user.store_picture} size="md" />
+      {userType==='courierCompany' && <CAvatar color="secondary">{user?.company_name?.charAt(0).toUpperCase()}</CAvatar>}
+      {userType==='courier' && <CAvatar color="secondary">{`${user?.first_name?.charAt(0).toUpperCase()}${user?.last_name?.charAt(0).toUpperCase()}`}</CAvatar>}
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
         <CDropdownHeader className="bg-light fw-semibold py-2">Account</CDropdownHeader>

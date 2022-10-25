@@ -8,6 +8,7 @@ import {
   CCol,
   CContainer,
   CForm,
+  CFormCheck,
   CFormInput,
   CInputGroup,
   CInputGroupText,
@@ -32,8 +33,9 @@ const Login = (props) => {
   const navigate = useNavigate()
   const submitHandler = (e) => {
     setLoad(true)
+    cookie.save('userType', e.target.userType.value)
     e.preventDefault()
-    loginHandler({ email: e.target.email.value, password: e.target.password.value })
+    loginHandler({ email: e.target.email.value, password: e.target.password.value }).then(() => setLoad(false)) 
   }
   let currentPath = cookie.load(`current_path${sessionStorage.tabID}`)
   useEffect(() => {
@@ -72,10 +74,18 @@ const Login = (props) => {
           text: `${login.message}, please login now`
         });
         setLoad(false)
+      }else {
+        showAlert({
+          title: "Something went wrong",
+          type: DialogType.WARNING,
+          text: login.message
+        });
       }
       dispatch(deleteMessage())
     }
   }, [login.message])
+
+ 
   useEffect(() => {
     cookie.save(`current_path${sessionStorage.tabID}`, window.location.pathname, { path: '/' })
   }, [])
@@ -107,11 +117,23 @@ const Login = (props) => {
                         name="password"
                       />
                     </CInputGroup>
-                    <CRow>
+                    <CRow xs={{gutterY: 2}}>
+                      <CCol xs={12}>
+                        <CRow >
+                          <CCol xs='auto'>
+                            <CFormCheck name='userType'  type='radio' value='courierCompany' label='Delivery Company' defaultChecked />
+
+                          </CCol>
+                          <CCol xs='auto'>
+                            <CFormCheck name='userType' type='radio' value='courier' label='Driver' />
+
+                          </CCol>
+                        </CRow>
+                      </CCol>
                       <CCol xs={6}>
-                            <CButton color="primary" className="px-4" type="submit"> 
-                              {load? <CSpinner color="light" size="sm"/>: t('login')}
-                            </CButton>
+                        <CButton color="primary" className="px-4" type="submit" disabled={load}>
+                          {load ? <CSpinner color="light" size="sm" /> : t('login')}
+                        </CButton>
                         {/* <If condition={load}>
                           <Then>
                             <CSpinner color="primary" />
@@ -122,13 +144,13 @@ const Login = (props) => {
                         </If> */}
                       </CCol>
                       <CCol xs={6} className="text-right">
-                        <CButton color="link" className="px-0" onClick={() =>navigate('/reference')}> 
+                        <CButton color="link" className="px-0" onClick={() => navigate('/reference')}>
                           {t('forgotPassword')}
                         </CButton>
                       </CCol>
                     </CRow>
                     <CRow>
-                        <CButton color='link' onClick={() => i18n.changeLanguage(i18n.language === 'en' ? 'ar' : 'en')}>{i18n.language === 'en' ? 'عربي' : 'English'}</CButton>
+                      <CButton color='link' onClick={() => i18n.changeLanguage(i18n.language === 'en' ? 'ar' : 'en')}>{i18n.language === 'en' ? 'عربي' : 'English'}</CButton>
                     </CRow>
                   </CForm>
                 </CCardBody>

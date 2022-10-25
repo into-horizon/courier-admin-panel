@@ -10,7 +10,8 @@ export const AppSidebarNav = ({ items }) => {
   const {t, i18n} = useTranslation('translation', { keyPrefix: 'routes' });
   const pendingOrders = useSelector((state) => state.orders.pendingOrders)
   const {status} = useSelector((state) => state.login.user)
-  console.log("🚀 ~ file: AppSidebarNav.js ~ line 13 ~ AppSidebarNav ~ status", status)
+  const {userType} = useSelector((state) => state.login)
+
   const location = useLocation()
   const navLink = (name, icon, badge) => {
     return (
@@ -44,10 +45,10 @@ export const AppSidebarNav = ({ items }) => {
     )
   }
   const navGroup = (item, index) => {
-    const { component, name, icon, to,approved, ...rest } = item
+    const { component, name, icon, to,approved,userType: type, ...rest } = item
     const Component = component
     return (
-      (approved?  status ==='approved': true )&& <Component
+      (approved?  status ==='approved': true )&&(type?  userType ===type: true )&& <Component
         idx={String(index)}
         key={index}
         toggler={navLink(name, icon)}

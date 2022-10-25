@@ -5,10 +5,11 @@ import Update from "src/services/Update";
 const NewAuth = new Auth();
 const NewUpdate = new Update();
 
+const userType = cookie.load('userType', { path: '/'})
 
 const login = createSlice({
     name: 'login',
-    initialState: { loggedIn: false, user: {}, message: '' },
+    initialState: { loggedIn: false, user: {}, message: '', userType: userType},
     reducers: {
         loginAction(state, action) {
 
@@ -23,13 +24,15 @@ const login = createSlice({
 
 export const loginHandler = payload => async dispatch => {
     try {
-        let response = await NewAuth.basicAuth(payload)
+        const userType = cookie.load('userType', { path: '/'})
+
+        let response = userType === 'courier' ? await NewAuth.courierBasicAuth(payload) :  await NewAuth.basicAuth(payload)
         if (response.status === 200) {
             cookie.save('access_token', response.access_token, { path: '/' })
             cookie.save('refresh_token', response.refresh_token, { path: '/' })
             cookie.save('session_id', response.session_id, { path: '/' })
-            let user = await NewAuth.getStore()
-            dispatch(loginAction({ loggedIn: true, user: { ...user } }));
+            let user =  userType ==='courier' ? await NewAuth.getCourier() : await NewAuth.getCourierCompany()
+            dispatch(loginAction({ loggedIn: true, user: { ...user }, userType: userType }));
         } else {
             dispatch(loginAction({ message: response.message }));
         }
@@ -39,9 +42,12 @@ export const loginHandler = payload => async dispatch => {
 }
 export const getUser = () => async (dispatch) => {
     try {
-        let user = await NewAuth.getStore()
+        const userType = cookie.load('userType', { path: '/'})
+        console.log("🚀 ~ file: auth.js ~ line 46 ~ getUser ~ userType", userType)
+
+        let user =  userType ==='courier' ? await NewAuth.getCourier() : await NewAuth.getCourierCompany()
         if (user?.id) {
-            dispatch(loginAction({ loggedIn: true, user: { ...user } }))
+            dispatch(loginAction({ loggedIn: true, user: { ...user }, userType: userType }))
         } else {
            
 
@@ -55,8 +61,8 @@ export const getUser = () => async (dispatch) => {
 
 export const logout = () => async dispatch => {
     await NewAuth.logout()
-    let cookies = cookie.loadAll()
-    Object.keys(cookies).forEach(key => {
+    let cookies = cookie.loadAll( { path: '/' })
+    cookies &&  Object.keys(cookies).forEach(key => {
        
         cookie.remove(key,{ path: '/' })
     })

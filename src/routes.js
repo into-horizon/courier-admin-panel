@@ -59,7 +59,7 @@ const PendingOrders = React.lazy(() => import('./components/PendingOrders'))
 const OrdersOverview = React.lazy(() => import('./components/OrderOverView'))
 const Pdf = React.lazy(() => import('./components/PdfView'))
 const Statement = React.lazy(() => import('./components/Statement'))
-
+const Courier = React.lazy(() => import('./views/pages/courier/Courier'))
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
@@ -116,9 +116,10 @@ const routes = [
   { path: '/order/overview', name: 'Orders Overview', component: OrdersOverview},
   { path: '/pdf', name: 'pdf', component: Pdf},
   { path: '/finance', name: 'Finance', component: Statement},
-  { path: '/finance/statement', name: 'Statements', component: Statement},
-  { path: '/finance/summary', name: 'Summary', component: Summary}
- 
+  { path: '/finance/statement', name: 'Statements', component: Statement, userType:'courierCompany'},
+  { path: '/finance/summary', name: 'Summary', component: Summary,userType:'courierCompany'},
+  { path: '/courier', name: 'Couriers', component: Courier , exact: true,userType:'courierCompany'},
+  { path: '/courier/overview', name: 'Couriers', component: Courier , exact: true,userType:'courierCompany'},
 
 ]
 

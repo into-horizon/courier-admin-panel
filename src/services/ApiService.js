@@ -52,7 +52,7 @@ export default class ApiService {
   }
 
   bearer(token) {
-    return {session_id:cookie.load('session_id') , Authorization: ` Bearer ${token}` }
+    return {session_id:cookie.load('session_id') , Authorization: ` Bearer ${token}`, locale: localStorage.getItem('i18nextLng') }
   }
 
   basic(data) {

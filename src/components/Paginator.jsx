@@ -2,7 +2,7 @@ import React, { useState, useEffect }from 'react'
 import { CPagination, CPaginationItem } from '@coreui/react'
 import cookie from 'react-cookies'
 
-const  Paginator = ({count, onChangePage, changeData,cookieName, params}) =>  {
+const  Paginator = ({count, changeData,cookieName, params}) =>  {
     const [pages, setPages] = useState([])
     const {limit,offset} = params
     const [selectedPage, setSelectedPage] = useState(Number(cookie.load(cookieName)) || 1)

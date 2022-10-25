@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import {useSelector} from 'react-redux'
 
 const AppContent = () => {
-  const {status} = useSelector((state) => state.login.user)
+  const {user:{status}, userType} = useSelector((state) => state.login)
 const navigate = useNavigate()
 const { t } = useTranslation('translation', { keyPrefix: 'routes' });
 t('addProduct')
@@ -29,7 +29,7 @@ useEffect(()=>{
             const Item = route.component
             const name = t(route.name) || route.name
             return (
-              route.component && (route.approved? route.approved && status ==='approved': true) && (
+              route.component && (route.approved? route.approved && status ==='approved': true)&& (route.userType? route.userType && userType ===route.userType: true) && (
                 <Route
                   key={idx}
                   path={route.path}

@@ -73,7 +73,7 @@ const { loggedIn, user:{id,verified_email}} = useSelector((state) => state.login
     let currentPath = cookie.load(`current_path${sessionStorage.tabID}`)
    
     
-    if (loggedIn && id && verified_email) {
+    if (loggedIn && id) {
       navigate(checkUnAuth(currentPath) ? '/' : currentPath)
       setLoad(false)
     } else if (!loggedIn && !token && !id) {
@@ -81,12 +81,13 @@ const { loggedIn, user:{id,verified_email}} = useSelector((state) => state.login
       cookie.save(`current_path${sessionStorage.tabID}`, path, { path: '/' })
       navigate(path)
       setLoad(false)
-    } else if (verified_email === false) {
-      navigate('/verify')
-      setLoad(false)
-    }
+    } 
+    // else if (verified_email === false) {
+    //   navigate('/verify')
+    //   setLoad(false)
+    // } 
    
-  }, [loggedIn, verified_email])
+  }, [loggedIn])
 
   useEffect(() => {
     if (i18n.language === 'en') {
