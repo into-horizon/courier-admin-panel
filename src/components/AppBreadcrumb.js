@@ -12,8 +12,8 @@ const AppBreadcrumb = () => {
 
   const getRouteName = (pathname, routes) => {
     cookie.save(`current_path${sessionStorage.tabID}`, pathname, {path: '/'})
-    const currentRoute = routes.find((route) => route.path === pathname)
-    return currentRoute.name
+    const currentRoute = routes.find((route) => route.path === pathname) ?? routes.find((route) => route.path === "*")
+    return currentRoute?.name
   }
 
   const getBreadcrumbs = (location) => {

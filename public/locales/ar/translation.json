@@ -125,7 +125,14 @@
         "updateProduct": "تعديل منتج",
         "Products": "المنتجات",
         "myProducts": "المنتجات الخاصة بي",
-        "Home": "الرئيسية"
+        "Home": "الرئيسية",
+        "Couriers": "السائقين",
+        "Delivery Tasks": "مهام التوصيل",
+        "Available Tasks": "المهام المتوفرة",
+        "Unassigned Tasks": "المهام الغير معينة",
+        "Tasks Overview": "نظرة عامة على المهام",
+        "Couriers Management": "إدارة السائقين",
+        "Dashboard": "لوحة القيادة"
     },
     "register": {
         "register": "التسجيل",

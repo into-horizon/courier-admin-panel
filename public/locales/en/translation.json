@@ -125,7 +125,14 @@
         "updateProduct": "Update Product",
         "Products": "Products",
         "myProducts": "My Products",
-        "Home": "Home"
+        "Home": "Home",
+        "Couriers": "Drivers",
+        "Delivery Tasks": "Delivery Tasks",
+        "Available Tasks": "Available Tasks",
+        "Unassigned Tasks": "Unassigned Tasks",
+        "Tasks Overview": "Tasks Overview",
+        "Couriers Management": "Couriers Management",
+        "Dashboard": "Dashboard"
     },
     "register": {
         "register": "Register",

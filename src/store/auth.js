@@ -61,13 +61,12 @@ export const getUser = () => async (dispatch) => {
 
 export const logout = () => async dispatch => {
     await NewAuth.logout()
-    let cookies = cookie.loadAll( { path: '/' })
+    let cookies = cookie.loadAll( )
     cookies &&  Object.keys(cookies).forEach(key => {
        
         cookie.remove(key,{ path: '/' })
     })
-    console.log(cookie.loadAll())
-    setTimeout(dispatch(loginAction({ loggedIn: false, user: {} })), 1000)
+    dispatch(loginAction({ loggedIn: false, user: {} }))
 
 
 

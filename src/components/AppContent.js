@@ -34,7 +34,7 @@ useEffect(()=>{
                   key={idx}
                   path={route.path}
                   exact={route.exact}
-                  name={route.name}
+                  name={t(route.name)}
                   element={ <Item/> }
                 />
               )

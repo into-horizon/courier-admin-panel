@@ -11,13 +11,10 @@ import finance from './finance'
 import bankAccount from './bankAccount';
 import withdrawals from './withdrawal'
 import couriers from './courier'
-
+import tasks from './tasks';
 const initialState = {
   sidebarShow: true,
 }
-const customizedMiddleware = getDefaultMiddleware({
-  serializableCheck: false
-})
 
 const changeState = (state = initialState, { type, ...rest }) => {
   switch (type) {
@@ -28,7 +25,7 @@ const changeState = (state = initialState, { type, ...rest }) => {
   }
 }
 
-const reducers = combineReducers({changeState, login:login, category: category, products:products,address:address, orders:orders, finance:finance,bankAccount:bankAccount,withdrawals:withdrawals,couriers:couriers })
+const reducers = combineReducers({changeState, login:login, category: category, products:products,address:address, orders:orders, finance:finance,bankAccount:bankAccount,withdrawals:withdrawals,couriers:couriers,tasks:tasks })
 
 const store = configureStore({reducer: reducers, middleware: (getDefaultMiddleware) => getDefaultMiddleware(),}, applyMiddleware(thunk))
 export default store

@@ -21,7 +21,7 @@ const  Paginator = ({count, changeData,cookieName, params}) =>  {
         // onChangePage(n)
     }
     return (
-        <CPagination aria-label="Page navigation example">
+        <CPagination aria-label="Page navigation example" className="mgn-top50">
             <CPaginationItem aria-label="Previous" onClick={() => changePage(selectedPage - 1 < 1 ? 1 : selectedPage - 1)}>
                 <span aria-hidden="true">&laquo;</span>
             </CPaginationItem>

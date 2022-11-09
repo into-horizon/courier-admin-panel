@@ -60,6 +60,11 @@ const OrdersOverview = React.lazy(() => import('./components/OrderOverView'))
 const Pdf = React.lazy(() => import('./components/PdfView'))
 const Statement = React.lazy(() => import('./components/Statement'))
 const Courier = React.lazy(() => import('./views/pages/courier/Courier'))
+const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
+const Available = React.lazy(() => import('./views/tasks/AvailableTasks'))
+const Unassigned = React.lazy(() => import('./views/tasks/UnassignedTasks'))
+const TasksOverview = React.lazy(() => import('./views/tasks/TasksOverview'))
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
@@ -119,7 +124,13 @@ const routes = [
   { path: '/finance/statement', name: 'Statements', component: Statement, userType:'courierCompany'},
   { path: '/finance/summary', name: 'Summary', component: Summary,userType:'courierCompany'},
   { path: '/courier', name: 'Couriers', component: Courier , exact: true,userType:'courierCompany'},
-  { path: '/courier/overview', name: 'Couriers', component: Courier , exact: true,userType:'courierCompany'},
+  { path: '/courier/overview', name: 'Couriers Management', component: Courier , exact: true,userType:'courierCompany'},
+  { path: '/tasks', name: 'Delivery Tasks', component: TasksOverview , exact: true,userType:'courierCompany'},
+  { path: '/tasks/available', name: 'Available Tasks', component: Available , exact: true,userType:'courierCompany'},
+  { path: '/tasks/assigned', name: 'Unassigned Tasks', component: Unassigned , exact: true,userType:'courierCompany'},
+  { path: '/tasks/overview', name: 'Tasks Overview', component: TasksOverview , exact: true,userType:'courierCompany'},
+
+  { path: '*', name: 'Error404', component: Page404 },
 
 ]
 

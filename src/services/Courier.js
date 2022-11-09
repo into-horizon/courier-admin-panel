@@ -9,6 +9,7 @@ class Courier extends ApiService {
     async addCourier(data) {
         try {
             let result = await this.post(this.path2, data)
+            console.log("🚀 ~ file: Courier.js ~ line 12 ~ Courier ~ addCourier ~ result", result)
             return result
         } catch (error) {
             return error

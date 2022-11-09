@@ -14,7 +14,9 @@ import {
     CModalTitle,
     CModalBody,
     CModalFooter,
-    CSpinner
+    CSpinner,
+    CTooltip ,
+    CModal
 } from '@coreui/react'
 import React, { useState, useEffect } from 'react'
 import { connect, useSelector } from 'react-redux'
@@ -23,7 +25,6 @@ import { useTranslation } from 'react-i18next'
 import CIcon from '@coreui/icons-react'
 import { cilUserX } from '@coreui/icons'
 import Paginator from '../../../components/Paginator'
-import { CModal } from '@coreui/react-pro'
 
 const Courier = ({ addCourierHandler, getCouriersHandler, removeCourier }) => {
     const { msg, couriers, count } = useSelector(state => state.couriers)
@@ -46,14 +47,17 @@ const Courier = ({ addCourierHandler, getCouriersHandler, removeCourier }) => {
     }, [msg])
 
     useEffect(() => {
-        Promise.all([getCouriersHandler()]).then(()=> setLoading(false))
+        Promise.all([getCouriersHandler()]).then(() => setLoading(false))
     }, [])
     const messageHandler = msg => {
-        if (msg?.includes('duplicate')) {
-            return t('duplicate')
-        } else if (msg?.includes('no account')) return t('noAccount')
-        else if (msg?.includes('successfully')) return t('successSend')
-        else return msg
+        if (typeof msg === 'string') {
+            if (msg?.includes('duplicate')) {
+                return t('duplicate')
+            } else if (msg?.includes('no account')) return t('noAccount')
+            else if (msg?.includes('successfully')) return t('successSend')
+            else return msg
+
+        }
     }
     const onHide = () => setModal({ visible: false, id: '' })
 
@@ -64,8 +68,8 @@ const Courier = ({ addCourierHandler, getCouriersHandler, removeCourier }) => {
     }
     return (
         <>
-            <CModal alignment="center" visible={modal.visible} onClose={onHide} closeButton={false}>
-                <CModalHeader onClose={onHide}>
+            <CModal alignment="center" visible={modal.visible} onClose={onHide} >
+                <CModalHeader>
                     <CModalTitle>
                         remove courier
                     </CModalTitle>
@@ -88,7 +92,7 @@ const Courier = ({ addCourierHandler, getCouriersHandler, removeCourier }) => {
                             </CCol>
                             <CCol xs={4}>
 
-                                <CButton type="submit" disabled={progressLoading}>{progressLoading ? <CSpinner size="sm" variant="grow"/> : t('sendInvitation')}</CButton>
+                                <CButton type="submit" disabled={progressLoading}>{progressLoading ? <CSpinner size="sm" variant="grow" /> : t('sendInvitation')}</CButton>
                             </CCol>
                             <CCol xs={8}>
 
@@ -117,16 +121,19 @@ const Courier = ({ addCourierHandler, getCouriersHandler, removeCourier }) => {
                                 <CTableBody>
                                     {!loading && React.Children.toArray(couriers.map(courier =>
                                         <CTableRow>
-                                            <CTableDataCell>
-                                                {`${courier.first_name} ${courier.last_name}`}
+                                            <CTableDataCell data-html={true} data-place='top' data-tip="hello world">
+                                                {courier.courier_name}
                                             </CTableDataCell>
                                             <CTableDataCell>
                                                 {courier.status}
                                             </CTableDataCell>
                                             <CTableDataCell>
-                                                <CButton color="secondary" title="remove courier" onClick={() => setModal({ visible: true, id: courier.id })}>
+                                                <CTooltip content='remove courier' >
+                                                <CButton color="secondary" data-tip='remove courier' onClick={() => setModal({ visible: true, id: courier.id })}>
                                                     <CIcon icon={cilUserX} />
                                                 </CButton>
+
+                                                </CTooltip>
                                             </CTableDataCell>
                                         </CTableRow>
 
@@ -135,12 +142,14 @@ const Courier = ({ addCourierHandler, getCouriersHandler, removeCourier }) => {
                                     }
                                 </CTableBody>
                             </CTable>
-                            {loading && <CSpinner color="primary"/> }
+                            {loading && <CSpinner color="primary" />}
                             <Paginator params={params} count={count} cookieName='courier' changeData={getCouriersHandler} />
                         </CCol>
                     </CRow>
                 </CCol>
             </CRow>
+         
+
         </>
 
     )
