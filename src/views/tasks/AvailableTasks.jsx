@@ -11,10 +11,7 @@ export const AvailableTasks = ({ getAvailableTasks, takeoverHandler }) => {
     Promise.all([getAvailableTasks()]).then(() => setLoading(false))
   }, [])
   const [params, setParams] = useState({ limit: 10, offset: 0 })
-  useEffect(() => {
-
-    console.log("🚀 ~ file: AvailableTasks.jsx ~ line 14 ~ AvailableTasks ~ available", data)
-  }, [data])
+ 
   const Name = ({ city }) => {
     return (
       <React.Fragment>
@@ -30,8 +27,15 @@ export const AvailableTasks = ({ getAvailableTasks, takeoverHandler }) => {
       </React.Fragment>
     )
   }
-
-  const columns = [{ header: 'city', field: '', body: Name }, { header: 'region', field: 'region' }, { header: 'street', field: 'street_name' }, { header: 'action', field: '', body: Action }]
+  const DateBody = data => <span>{new Date(data.delivery_date).toLocaleDateString()}</span>
+  
+  const columns = [
+    { header: 'city', field: '', body: Name },
+    { header: 'region', field: 'region' },
+    { header: 'street', field: 'street_name' },
+    { header: 'delivery date', field: 'delivery_date',body:DateBody },
+    { header: 'action', field: '', body: Action }
+  ]
   return (
     <>
       {loading ? <CSpinner color="primary" /> :

@@ -132,7 +132,10 @@
         "Unassigned Tasks": "المهام الغير معينة",
         "Tasks Overview": "نظرة عامة على المهام",
         "Couriers Management": "إدارة السائقين",
-        "Dashboard": "لوحة القيادة"
+        "Dashboard": "لوحة القيادة",
+        "myTasks": "مهامي",
+        "newTasks" : "المهام الجديدة",
+        "todayTasks": "مهام اليوم"
     },
     "register": {
         "register": "التسجيل",

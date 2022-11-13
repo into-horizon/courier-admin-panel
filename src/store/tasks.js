@@ -73,6 +73,27 @@ export const getTasksOverview = (payload) => async (dispatch) => {
     }
 }
 
+export const bulkReassignCourier = payload => async (dispatch,state) => {
+    try {
+        let {status, data, message} = await Tasks.bulkReassignCourier(payload)
+        if(status === 200) {
+            dispatch(getTasksOverview())
+        }
+    } catch (error) {
+        dispatch(addData({ msg: error }))
+    }
+}
+export const bulkUpdateStatus = payload => async (dispatch,state) => {
+    try {
+        let {status, data, message} = await Tasks.bulkUpdateStatus(payload)
+        if(status === 200) {
+            dispatch(getTasksOverview())
+        }
+    } catch (error) {
+        dispatch(addData({ msg: error }))
+    }
+}
+
 
 export default tasks.reducer
 

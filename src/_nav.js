@@ -109,6 +109,41 @@ const _nav = [
       // },
     ]
   },
+  {
+    component: CNavGroup,
+    name: 'myTasks',
+    to: '/tasks',
+    approved: false,
+    icon: <CIcon icon={cilTask} customClassName="nav-icon" />,
+    userType: 'courier',
+    items: [
+      {
+        component: CNavItem,
+        name: 'newTasks',
+        to: '/tasks/new',
+      },
+      {
+        component: CNavItem,
+        name: 'todayTasks',
+        to: '/tasks/today',
+      },
+      {
+        component: CNavItem,
+        name: 'Tasks Overview',
+        to: '/tasks/overview',
+      },
+      // {
+      //   component: CNavItem,
+      //   name: 'Products',
+      //   to: '/product/products',
+      // },
+      // {
+      //   component: CNavItem,
+      //   name: 'Update Product',
+      //   to: '/product/updateProduct',
+      // },
+    ]
+  },
   // {
   //   component: CNavGroup,
   //   name: 'Orders',

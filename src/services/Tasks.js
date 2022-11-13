@@ -46,6 +46,23 @@ class Tasks extends ApiService {
             return error
         }
     }
+    async bulkReassignCourier(data) {
+        try {
+            let result = await this.update(`${this.path}/bulkReassign`,data);
+            return result
+        } catch (error) {
+            return error
+        }
+       
+    }
+    async bulkUpdateStatus(data) {
+        try {
+            let result = await this.update(`${this.path}/bulkStatus`,data);
+            return result
+        } catch (error) {
+            return error
+        }
+    }
 }
 
 export default new Tasks()

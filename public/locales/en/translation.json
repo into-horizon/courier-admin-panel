@@ -132,7 +132,10 @@
         "Unassigned Tasks": "Unassigned Tasks",
         "Tasks Overview": "Tasks Overview",
         "Couriers Management": "Couriers Management",
-        "Dashboard": "Dashboard"
+        "Dashboard": "Dashboard",
+        "myTasks": "My Tasks",
+        "newTasks" : "New Tasks",
+        "todayTasks": "Today Tasks"
     },
     "register": {
         "register": "Register",
